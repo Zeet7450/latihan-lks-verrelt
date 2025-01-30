@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELGIO - Sign Up</title>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <section id="form-detail" class="signup-section">
+        <div class="details" style="width: 40%;">
+            <h2>Create an Account</h2>
+            <p>Join ELGIO and start your shopping journey!</p>
+            <form id="signupForm">
+                <input type="text" id="fullName" placeholder="Full Name" required>
+                <input type="email" id="email" placeholder="Email Address" required>
+                <input type="tel" id="phoneNumber" placeholder="Phone Number" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+                <button type="submit" class="normal">Sign Up</button>
+            </form>
+            <p>Already have an account? <a href="login.html" style="color: #06402B;">Sign In</a></p>
+        </div>
+    </section>
+
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+
+        if (password !== confirmPassword) {
+            alert('Passwords do not match!');
+            return;
+        }
+
+        // Tambahkan logika pendaftaran di sini
+        alert('Sign Up Successful!');
+
+        // Arahkan ke halaman utama setelah pendaftaran berhasil
+        window.location.href = 'index.html'; // Ganti dengan URL halaman utama Anda
+    });
+    </script>
+</body>
+</html>
