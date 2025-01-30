@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - ELGIO Ecommerce</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .checkout-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .order-summary {
+            background-color: #f9f9f9;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .checkout-form {
+            background-color: #f1f1f1;
+            padding: 20px;
+        }
+        .checkout-form input, 
+        .checkout-form select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <section id="header">
+        <!-- Sama seperti header di halaman lain -->
+    </section>
+
+    <section class="checkout-container">
+        <h1>Checkout</h1>
+        
+        <div class="order-summary">
+            <h2>Order Summary</h2>
+            <table id="checkout-items" width="100%">
+                <!-- Items akan dimasukkan secara dinamis dengan JavaScript -->
+            </table>
+            <div class="order-total">
+                <strong>Total:</strong> <span id="checkout-total">$0</span>
+            </div>
+        </div>
+
+        <div class="checkout-form">
+            <h2>Shipping Information</h2>
+            <form id="shipping-form">
+                <input type="text" name="fullName" placeholder="Full Name" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="tel" name="phone" placeholder="Phone Number" required>
+                
+                <h3>Shipping Address</h3>
+                <input type="text" name="address" placeholder="Street Address" required>
+                <input type="text" name="city" placeholder="City" required>
+                <input type="text" name="state" placeholder="State/Province" required>
+                <input type="text" name="zipCode" placeholder="ZIP/Postal Code" required>
+                
+                <h3>Payment Method</h3>
+                <select name="payment-method" required>
+                    <option value="">Select Payment Method</option>
+                    <option value="credit-card">Credit Card</option>
+                    <option value="paypal">E-wallet</option>
+                    <option value="bank-transfer">Bank Transfer</option>
+                </select>
+
+                <button type="submit" class="normal">Complete Order</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <!-- Footer sama seperti di halaman lain -->
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ambil data cart dari localStorage
+            const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+            const checkoutItemsTable = document.getElementById('checkout-items');
+            let total = 0;
+
+            // Bersihkan tabel sebelumnya
+            checkoutItemsTable.innerHTML = `
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                </tr>
+            `;
+
+            // Tambahkan item ke tabel checkout
+            cartItems.forEach(item => {
+                const subtotal = item.price * item.quantity;
+                total += subtotal;
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.name}</td>
+                    <td>$${item.price.toFixed(2)}</td>
+                    <td>${item.quantity}</td>
+                    <td>$${subtotal.toFixed(2)}</td>
+                `;
+                checkoutItemsTable.appendChild(row);
+            });
+
+            // Update total
+            document.getElementById('checkout-total').textContent = `$${total.toFixed(2)}`;
+
+            // Handle form submission
+            document.getElementById('shipping-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Validasi form
+                const formData = new FormData(this);
+                const shippingInfo = Object.fromEntries(formData.entries());
+
+                // Gabungkan info pesanan
+                const orderDetails = {
+                    items: cartItems,
+                    total: total,
+                    shippingInfo: shippingInfo
+                };
+
+                // Contoh: Kirim data ke backend atau proses pembayaran
+                console.log('Order Details:', orderDetails);
+                
+                // Redirect atau tampilkan konfirmasi
+                alert('Order placed successfully!');
+                
+                // Bersihkan cart
+                localStorage.removeItem('cartItems');
+                window.location.href = 'index.html';
+            });
+        });
+
+        
+    </script>
+</body>
+</html>
